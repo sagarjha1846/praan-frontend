@@ -74,7 +74,7 @@ function App() {
                 />
               </div>
               <div className=" w-full h-full">
-                <Graph />
+                <Graph data={data} machine={machine} />
               </div>
             </div>
           </div>
