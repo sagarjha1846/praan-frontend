@@ -1,33 +1,49 @@
-import React, { useState } from "react";
-import { AgGridReact } from "ag-grid-react";
+import { Table } from "antd";
+import { useEffect, useState } from "react";
 
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
+const Table1 = ({ tableParams, setData, setTableParams, machine, data }) => {
+  const [loading, setLoading] = useState(false);
+  const [columnDefs, setColumnDefs] = useState([]);
 
-const Table = ({ data, machine }) => {
-  const [columnDefs] = useState([
-    { sortable: true, headerName: "Device", field: "device" },
-    { sortable: true, headerName: "Timestamp", field: "t" },
-    { sortable: true, headerName: "Wind Speed", field: "w" },
-    { sortable: true, headerName: "Wind direction", field: "h" },
-    {
-      sortable: true,
-      headerName: machine === "p1" ? "P1" : machine === "p10" ? "P10" : "P25",
-      field: machine === "p1" ? "p1" : machine === "p10" ? "p10" : "p25",
-    },
-  ]);
+  useEffect(() => {
+    setColumnDefs([
+      { title: "Device", dataIndex: "device" },
+      { title: "Timestamp", dataIndex: "t" },
+      { title: "Wind Speed", dataIndex: "w" },
+      { title: "Wind direction", dataIndex: "h" },
+      {
+        title: machine === "p1" ? "P1" : machine === "p10" ? "P10" : "P25",
+        dataIndex: machine === "p1" ? "p1" : machine === "p10" ? "p10" : "p25",
+      },
+    ]);
+  }, [data, machine]);
+
+  const handleTableChange = (pagination, filters, sorter) => {
+    setTableParams({
+      pagination,
+      filters,
+      ...sorter,
+    });
+
+    // `dataSource` is useless since `pageSize` changed
+    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+      setData([]);
+    }
+  };
   return (
-    <div className="p-5">
-      <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
-        <AgGridReact
-          rowData={data}
-          pagination={true}
-          paginationPageSize={30}
-          sortable={true}
-          columnDefs={columnDefs}></AgGridReact>
-      </div>
+    <div className="w-full h-full">
+      <h1 className="text-2xl font-bold">Table:</h1>
+      {columnDefs && data && (
+        <Table
+          columns={columnDefs}
+          // rowKey={(record) => record.login.uuid}
+          dataSource={data}
+          pagination={tableParams.pagination}
+          loading={loading}
+          onChange={handleTableChange}
+        />
+      )}
     </div>
   );
 };
-
-export default Table;
+export default Table1;
