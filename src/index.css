@@ -3,8 +3,17 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 body{
   font-family: 'Poppins', sans-serif;
 }
+
+.specialStyle>div>div>div{
+  background-color: #334756!important;
+}
+
+.specialStyle>div>div>div>div:hover{
+  background-color: #334756!important;
+  color: black!important;
+}
+
+

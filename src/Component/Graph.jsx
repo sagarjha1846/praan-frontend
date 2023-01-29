@@ -1,7 +1,7 @@
 import React from "react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
-const Graph = ({ data, machine }) => {
+const Graph = ({ data, machine, darkMode }) => {
   console.log(data, machine);
   const newData = data.map((el) => {
     return [
@@ -13,10 +13,14 @@ const Graph = ({ data, machine }) => {
   const options = {
     chart: {
       zoomType: "x",
+      backgroundColor: darkMode ? "#334756" : "",
     },
     title: {
       text: `${machine} Vs Time`,
       align: "left",
+      style: {
+        color: darkMode ? "#ffffff" : "",
+      },
     },
     data: {
       parseDate: Date.parse,
@@ -24,7 +28,11 @@ const Graph = ({ data, machine }) => {
 
     xAxis: {
       type: "category",
+
       labels: {
+        style: {
+          color: darkMode ? "#ffffff" : "",
+        },
         formatter: function () {
           var year = this.value.substring(0, 4);
           var month = this.value.substring(4, 6);
@@ -37,12 +45,23 @@ const Graph = ({ data, machine }) => {
       },
     },
     yAxis: {
+      labels: {
+        style: {
+          color: darkMode ? "#ffffff" : "",
+        },
+      },
       title: {
-        text: "Exchange rate",
+        text: `${machine} Value`,
+        style: {
+          color: "#ffffff",
+        },
       },
     },
     legend: {
       enabled: false,
+      style: {
+        color: "#ffffff",
+      },
     },
     plotOptions: {
       area: {
@@ -75,7 +94,6 @@ const Graph = ({ data, machine }) => {
         threshold: null,
       },
     },
-
     series: [
       {
         name: machine,
@@ -85,9 +103,11 @@ const Graph = ({ data, machine }) => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Graph:</h1>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+    <div className="w-full dark:bg-[#334756] bg-[#FBFBFB] shadow-md rounded-md p-3">
+      <h1 className="text-2xl dark:text-slate-200 font-bold m-4">Graph:</h1>
+      <div className="m-4">
+        <HighchartsReact highcharts={Highcharts} options={options} />
+      </div>
     </div>
   );
 };
