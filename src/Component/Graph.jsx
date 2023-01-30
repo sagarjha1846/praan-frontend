@@ -2,7 +2,7 @@ import React from "react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 const Graph = ({ data, machine, darkMode }) => {
-  console.log(data, machine);
+ 
   const newData = data.map((el) => {
     return [
       "20" + el.t.replaceAll("/", "").replaceAll(",", "").replaceAll(":", ""),

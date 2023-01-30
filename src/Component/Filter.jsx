@@ -1,8 +1,16 @@
 import { DatePicker } from "antd";
 import React from "react";
-const Filter = ({ setToDate, setFromDate, machine, setMachine }) => {
+import { useNavigate } from "react-router-dom";
+const Filter = ({
+  setUserLogged,
+  setToDate,
+  setFromDate,
+  machine,
+  setMachine,
+}) => {
   const deviceList = ["p1", "p25", "p10", "Upload CSV"];
   const { RangePicker } = DatePicker;
+  const navigate = useNavigate();
 
   const onChange = (range) => {
     const valueOfInput1 = range[0].format("YY/MM/DD,HH:mm:ss");
@@ -68,6 +76,17 @@ const Filter = ({ setToDate, setFromDate, machine, setMachine }) => {
               </button>
             ))}
         </div>
+      </div>
+      <div className="pl-4">
+        <button
+          onClick={() => {
+            localStorage.removeItem("user");
+            navigate("/login");
+            setUserLogged(false);
+          }}
+          className={` w-[80%] mx-4 font-bold bg-[#FF4C29]  p-2 rounded-md  align-middle text-center hover:bg-blue-800 text-white hover:font-bold dark:hover:bg-[#FF4C29]`}>
+          Logout
+        </button>
       </div>
     </div>
   );
